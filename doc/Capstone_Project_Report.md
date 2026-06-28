@@ -8,7 +8,7 @@
 
 Submitted by: Arun Gopalakrishna Iyer
 
-Name: Register No: 23150182
+Name: Register No: 23150182 (Enrollment_No)
 
 Course: Certificate Course in VLSI Design
 
@@ -55,39 +55,40 @@ A Wallace multiplier is a hardware implementation of a binary multiplier, a digi
 
 The basic multiplication generates all 8 partial products.
 
-                                        a7 a6 a5 a4 a3 a2 a1 a0
-                                        b7 b6 b5 b4 b3 b2 b1 b0
-                                       ------------------------ 
-                            a7b0...........................a0b0.  => pp0
-                        a7b1...........................a0b1       => pp1  
-                    a7b2...........................a0b2           => pp2
-                a7b3...........................a0b3               => pp3
-            a7b4...........................a0b4                   => pp4
-        a7b5...........................a0b5                       => pp5
-    a7b6...........................a0b6                           => pp6
-a7b7...........................a0b7                               => pp7
+                                            a7 a6 a5 a4 a3 a2 a1 a0
+                                            b7 b6 b5 b4 b3 b2 b1 b0
+                                           ------------------------ 
+                                a7b0...........................a0b0.  => pp0
+                            a7b1...........................a0b1       => pp1  
+                        a7b2...........................a0b2           => pp2
+                    a7b3...........................a0b3               => pp3
+                a7b4...........................a0b4                   => pp4
+            a7b5...........................a0b5                       => pp5
+        a7b6...........................a0b6                           => pp6
+    a7b7...........................a0b7                               => pp7
+
 
 
 ## **5.2 Wallace Tree Reduction** 
 In reduction step each 3 rows (pp0..pp2 & pp3...pp55) is reduced to create 2 rows of sum and carry
 
-                            a7b0...........................a0b0.  => pp0
-                        a7b1...........................a0b1       => pp1  
-                    a7b2...........................a0b2           => pp2
-                    -----------------------------------------------------
-                    S7.......................................S0.  => row1_0
-                    c7.......................................c0.  => row1_1
+                                a7b0...........................a0b0.  => pp0
+                            a7b1...........................a0b1       => pp1  
+                        a7b2...........................a0b2           => pp2
+                        -----------------------------------------------------
+                        S7.......................................S0.  => row1_0
+                        c7.......................................c0.  => row1_1
 
 
-                a7b3...........................a0b3               => pp3
-            a7b4...........................a0b4                   => pp4
-        a7b5...........................a0b5                       => pp5
-        -------------------------------------------------------------------
-        S7.......................................S0.              => row1_2
-        c7.......................................c0.              => row1_3
+                    a7b3...........................a0b3               => pp3
+                a7b4...........................a0b4                   => pp4
+            a7b5...........................a0b5                       => pp5
+            -------------------------------------------------------------------
+            S7.......................................S0.              => row1_2
+            c7.......................................c0.              => row1_3
 
-    a7b6...........................a0b6                           => pp6 => row1_4
-a7b7...........................a0b7                               => pp7 => row1_5
+        a7b6...........................a0b6                           => pp6 => row1_4
+    a7b7...........................a0b7                               => pp7 => row1_5
 
 Now keep adding the 6 rows (row1_0 ...row1_6) from stage 1 down to just 2 rows
 
@@ -120,7 +121,7 @@ Now reduce 4 rows to 2 rows and get final product
 ## **6. Proposed Architecture** 
 
 ## **Block Diagram** 
-![alt text](image.png)
+![alt text](block_diagram.png)
 
 ## **7. Pipeline Architecture** 
 The multiplier is pipelined into 3 stages using registers
@@ -169,43 +170,24 @@ The testbench performs:
 - Output checking 
 
 ## **Test Cases** 
-Simple Testing: applies some test values and prints the result
+Simple Testing: applies some test values and prints the result.
+
 testbench file : tb_wallace_mult_8bit.v
 
-Random testing: repeat(1000) Generate random A,B Compare: RTL output vs A*B reference 
+Random testing: repeat(1000) Generate random A,B Compare: RTL output vs A*B reference. 
+
 testbench file : tb_rand_wallace_mult_8bit.v
 
 ## **11. Simulation Results** 
 
-Included:  out/tb_wallace_mult_8bit.out & out/tb_rand_wallace_mult_8bit.out
+Included:  
+out/tb_wallace_mult_8bit.out & 
+out/tb_rand_wallace_mult_8bit.out
 
 ## **Waveform Screenshot** 
 
 ## Show: 
-
-- clk 
-
-- reset 
-
-- input A 
-
-- input B 
-
-- output Product 
-
-- valid signal 
-
-Example: 
-
-Cycle: 
-
-- 1  Input applied 
-
-- 2  Pipeline stage 1 
-
-- 3  Pipeline stage 2 
-
-- 4  Output valid 
+![alt text](gtkwave.png) 
 
 ## **12. Verification Result** 
 
@@ -232,7 +214,11 @@ iverilog -o out/tb_rand_wallace_mult_8bit.out tb_rand_wallace_mult_8bit.v wallac
 
 Starting 1000 random tests...
 All 1000 random cases passed.
-tb_rand_wallace_mult_8bit.v:98: $finish called at 60070 (1s)
+Execution finished at time 60070 ns
+Completed 1000 cases in 60070.000 ns
+Throughput = 16.647 MOPS/s
+Throughput = 33.294 MB/s
+tb_rand_wallace_mult_8bit.v:119: $finish called at 60070 (1s)
 
 
 **Test Result** 
@@ -244,10 +230,21 @@ Zero input PASS
 ## **13. Performance Analysis** 
 
 ## **Throughput** 
+Throughpt calculated on basis of random tests of 1000 operations
+Completed 1000 cases in 60070.000 ns
+Throughput = 16.647 MOPS/s
+Throughput = 33.294 MB/s
 
 ## **14. Comparison** 
+TBD. Based on any benchmarks available. 
 
 ## **15. Conclusion** 
 
+The current design in wallace_mult_8bit.v is a good educational implementation, and several improvements would make it more efficient and synthesis-friendly.
+
 ## **16. Future Enhancements** 
 
+1. Convert the module to support any bit-width, such as 8, 16, 32, etc.This makes the same architecture reusable instead of being hard-coded for 8 bits.
+2. Upgrading to higher-order compressors (e.g., 4:2, 5:2 compressors) dramatically decreases the number of reduction stages and interconnect routing.
+3. The last stage currently uses simple addition.A carry-lookahead adder or a faster final adder can reduce critical path delay.
+4. Support signed multiplication. Add support for signed operands with sign extension logic.
