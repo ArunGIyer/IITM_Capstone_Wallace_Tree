@@ -1,6 +1,6 @@
-// Simple 8x8 Wallace Tree Multiplier
+// 8x8 Wallace Tree Multiplier
 // Pipelined into 3 stages using registers
-// Written in a simple/behavioral style (easy to read, not gate level)
+// Written in behavioral style 
 
 module wallace_mult_8bit(
     input clk,
